@@ -42,7 +42,7 @@ function Navbar() {
                         <div className="w-10 rounded-full">
                             <img
                                 alt="Avatar del usuario"
-                                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                                src="https://img.daisyui.com/images/profile/demo/spiderperson@192.webp"
                             />
                         </div>
                     </div>

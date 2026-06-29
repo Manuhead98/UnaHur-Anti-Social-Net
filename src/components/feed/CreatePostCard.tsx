@@ -6,7 +6,7 @@ import {
     X
 } from "lucide-react";
 
-import Avatar from "./Avatar";
+import Avatar from "../ui/Avatar";
 
 function CreatePostCard() {
 
