@@ -5,25 +5,31 @@ import Sidebar from "../ui/Sidebar";
 
 function MenuLayout() {
     return (
-        <div className="drawer lg:drawer-open">
+        <div className="flex flex-col h-screen bg-base-200">
 
-            <input
-                id="main-drawer"
-                type="checkbox"
-                className="drawer-toggle"
-            />
+            <Navbar />
 
-            <div className="drawer-content flex flex-col">
+            <div className="drawer lg:drawer-open flex-1">
 
-                <Navbar />
+                <input
+                    id="main-drawer"
+                    type="checkbox"
+                    className="drawer-toggle"
+                />
 
-                <main className="flex-1 p-6">
-                    <Outlet />
-                </main>
+                <div className="drawer-content overflow-y-auto">
+
+                    <main className="container mx-auto max-w-7xl p-6">
+
+                        <Outlet />
+
+                    </main>
+
+                </div>
+
+                <Sidebar />
 
             </div>
-
-            <Sidebar />
 
         </div>
     );
