@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import ProtectedRoute from "../components/ProtectedRoute";
 
 import Bienvenido from "../pages/Bienvenido";
 import Login from "../pages/Login";
@@ -22,9 +23,20 @@ function AppRouter() {
 
                 {/* Layout principal */}
                 <Route element={<MenuLayout />}>
+
                     <Route path="/home" element={<Home />} />
-                    <Route path="/perfil" element={<Perfil />} />
+
+                    <Route
+                        path="/perfil"
+                        element={
+                            <ProtectedRoute>
+                                <Perfil />
+                            </ProtectedRoute>
+                        }
+                    />
+
                     <Route path="/post/:id" element={<Post />} />
+
                 </Route>
 
                 {/* Error */}
