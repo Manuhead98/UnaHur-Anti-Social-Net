@@ -6,13 +6,47 @@ import {
     MoreVertical
 } from "lucide-react";
 
-function PostCard() {
+// Definimos qué datos esperamos recibir desde el Home.
+// Por ahora usamos una estructura simple según lo que devuelve el backend documental.
+type PostCardProps = {
+    post: {
+        _id: string;
+        description: string;
+        author?: {
+            nickname: string;
+        };
+        comments?: {
+            _id: string;
+        }[];
+        images?: {
+            url: string;
+        }[];
+        tags?: {
+            name: string;
+        }[];
+    };
+};
+
+function PostCard({ post }: PostCardProps) {
+
+    // Si el post tiene autor, mostramos el nickname.
+    // Si no viene autor por algún motivo, mostramos "Usuario".
+    const authorName = post.author?.nickname || "Usuario";
+
+    // Si el post tiene comentarios, contamos cuántos hay.
+    // Si no vienen comentarios, mostramos 0.
+    const commentsCount = post.comments?.length || 0;
+
+    // Si el post tiene imágenes, tomamos la primera.
+    // Si no tiene imágenes, dejamos una imagen de prueba.
+    const imageUrl = post.images?.[0]?.url || "https://picsum.photos/800/500";
+
     return (
         <div className="card bg-base-100 shadow-md border border-base-300 w-full">
 
-            {/* Header */}
             <div className="card-body p-5">
 
+                {/* Header del post: avatar + nombre + menú */}
                 <div className="flex justify-between items-start">
 
                     <div className="flex gap-3">
@@ -20,20 +54,20 @@ function PostCard() {
                         <Avatar />
 
                         <div>
-
+                            {/* Nombre del autor del post */}
                             <h2 className="font-semibold text-base-content">
-                                Manu Diaz
+                                {authorName}
                             </h2>
 
+                            {/* Por ahora queda fijo. Después podemos calcular fecha real */}
                             <p className="text-sm text-base-content/60">
-                                Hace 5 minutos
+                                Hace unos minutos
                             </p>
-
                         </div>
 
                     </div>
 
-                    {/* Menú */}
+                    {/* Menú de opciones */}
                     <div className="dropdown dropdown-end">
 
                         <div
@@ -59,90 +93,82 @@ function PostCard() {
                             <li>
                                 <a>Compartir</a>
                             </li>
-
                         </ul>
 
                     </div>
 
                 </div>
 
-                {/* Descripción */}
-
+                {/* Descripción del post */}
                 <div className="mt-4">
-
                     <p className="leading-relaxed">
-                        Hoy terminé el frontend de UnaHur Anti-Social Net 🚀.
-                        Ahora toca conectar toda la API hecha en Node.js y MongoDB.
+                        {post.description}
                     </p>
-
                 </div>
 
-                {/* Imagen */}
-
+                {/* Imagen del post */}
                 <figure className="mt-4 rounded-xl overflow-hidden max-h-96">
                     <img
-                        src="https://picsum.photos/800/500"
+                        src={imageUrl}
                         alt="Post"
                         className="w-full object-cover"
                     />
-
                 </figure>
 
-                {/* Tags */}
-
+                {/* Tags del post */}
                 <div className="flex flex-wrap gap-2 mt-5">
 
-                    <div className="badge badge-primary">
-                        #React
-                    </div>
-
-                    <div className="badge badge-secondary">
-                        #TypeScript
-                    </div>
-
-                    <div className="badge badge-accent">
-                        #Tailwind
-                    </div>
+                    {/* Si el post tiene tags, los mostramos */}
+                    {post.tags && post.tags.length > 0 ? (
+                        post.tags.map((tag) => (
+                            <div
+                                key={tag.name}
+                                className="badge badge-primary"
+                            >
+                                #{tag.name}
+                            </div>
+                        ))
+                    ) : (
+                        // Si no tiene tags, mostramos un mensaje simple
+                        <div className="badge badge-ghost">
+                            Sin etiquetas
+                        </div>
+                    )}
 
                 </div>
 
-                {/* Acciones */}
-
                 <div className="divider my-3"></div>
 
+                {/* Acciones del post */}
                 <div className="flex justify-around">
 
                     <button className="btn btn-ghost flex-1">
-
                         <Heart
                             size={20}
                             className="mr-2"
                         />
 
+                        {/* Likes hardcodeados por ahora */}
                         <span>25</span>
-
                     </button>
 
                     <button className="btn btn-ghost flex-1">
-
                         <MessageCircle
                             size={20}
                             className="mr-2"
                         />
 
-                        <span>12</span>
-
+                        {/* Cantidad real de comentarios */}
+                        <span>{commentsCount}</span>
                     </button>
 
                     <button className="btn btn-ghost flex-1">
-
                         <Share2
                             size={20}
                             className="mr-2"
                         />
 
                         Compartir
-
                     </button>
 
                 </div>
