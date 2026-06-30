@@ -39,7 +39,7 @@ function PostCard({ post }: PostCardProps) {
 
     // Si el post tiene imágenes, tomamos la primera.
     // Si no tiene imágenes, dejamos una imagen de prueba.
-    const imageUrl = post.images?.[0]?.url || "https://picsum.photos/800/500";
+    const imageUrl = post.images?.[0]?.url;
 
     return (
         <div className="card bg-base-100 shadow-md border border-base-300 w-full">
@@ -107,13 +107,21 @@ function PostCard({ post }: PostCardProps) {
                 </div>
 
                 {/* Imagen del post */}
-                <figure className="mt-4 rounded-xl overflow-hidden max-h-96">
-                    <img
-                        src={imageUrl}
-                        alt="Post"
-                        className="w-full object-cover"
-                    />
-                </figure>
+                {
+                    imageUrl && (
+
+                        <figure className="mt-4 rounded-xl overflow-hidden max-h-96">
+
+                            <img
+                                src={imageUrl}
+                                alt="Post"
+                                className="w-full object-cover"
+                            />
+
+                        </figure>
+
+                    )
+                }
 
                 {/* Tags del post */}
                 <div className="flex flex-wrap gap-2 mt-5">

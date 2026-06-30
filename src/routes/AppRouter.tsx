@@ -8,8 +8,8 @@ import Home from "../pages/Home";
 import Perfil from "../pages/Perfil";
 import Post from "../pages/Post";
 import Error from "../pages/Error";
-
 import MenuLayout from "../components/layouts/MenuLayout";
+import CreatePost from "../pages/CreatePost";
 
 function AppRouter() {
     return (
@@ -31,6 +31,15 @@ function AppRouter() {
                         element={
                             <ProtectedRoute>
                                 <Perfil />
+                            </ProtectedRoute>
+                        }
+                    />
+
+                    <Route
+                        path="/crear-post"
+                        element={
+                            <ProtectedRoute>
+                                <CreatePost />
                             </ProtectedRoute>
                         }
                     />
