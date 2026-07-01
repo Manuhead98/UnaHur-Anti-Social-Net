@@ -189,7 +189,11 @@ function Post() {
                                     key={comment._id}
                                     className="bg-base-200 rounded-xl p-4 flex gap-3"
                                 >
-                                    <Avatar nickname={comment.author?.nickname} />
+                                    <Avatar
+                                        id={comment.author?._id || ""}
+                                        nickname={comment.author?.nickname}
+                                        size="w-12"
+                                    />
 
                                     <div>
                                         <p className="font-semibold">
