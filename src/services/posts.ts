@@ -14,10 +14,24 @@ export const getPostsByUser = async (userId: string) => {
     });
 };
 
+// Crea una publicación nueva.
+// description: texto obligatorio del post.
+// author: id del usuario logueado.
+// tags: array opcional con ids de etiquetas.
+// images: array opcional con objetos que tienen una url.
 export const createPost = async (post: {
     description: string;
     author: string;
+    tags?: string[];
+    images?: {
+        url: string;
+    }[];
 }) => {
     const response = await api.post("/posts", post);
+    return response.data;
+};
+
+export const getPostById = async (postId: string) => {
+    const response = await api.get(`/posts/${postId}`);
     return response.data;
 };

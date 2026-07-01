@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import PostCard from "../components/feed/PostCard";
 import { getPosts } from "../services/posts";
+// Contexto del buscador.
+// Nos permite leer el texto escrito en el Navbar.
+import { useSearch } from "../context/SearchContext";
 
 function Home() {
 
@@ -12,6 +15,9 @@ function Home() {
 
     // Estado para guardar errores si falla la API
     const [error, setError] = useState("");
+    
+    // Obtenemos el texto del buscador.
+    const { search } = useSearch();
 
     // useEffect se ejecuta cuando se carga la pantalla Home
     useEffect(() => {
@@ -34,6 +40,15 @@ function Home() {
         loadPosts();
     }, []);
 
+    // Filtramos las publicaciones según lo escrito en el buscador.
+    // Convertimos todo a minúsculas para que no importe si el usuario escribe
+    // con mayúsculas o minúsculas.
+    const filteredPosts = posts.filter((post) => {
+        return post.description
+            ?.toLowerCase()
+            .includes(search.toLowerCase());
+    });
+
     return (
         <div className="container mx-auto px-4">
 
@@ -53,15 +68,14 @@ function Home() {
                     </div>
                 )}
 
-                {/* Mensaje si no hay posts */}
-                {!loading && !error && posts.length === 0 && (
+                {!loading && !error && filteredPosts.length === 0 && (
                     <p className="text-center">
-                        Todavía no hay publicaciones.
+                        No se encontraron publicaciones.
                     </p>
                 )}
 
                 {/* Lista real de posts */}
-                {!loading && !error && posts.map((post) => (
+                {!loading && !error && filteredPosts.map((post) => (
                     <PostCard
                         key={post._id}
                         post={post}

@@ -6,6 +6,10 @@ import {
     MoreVertical
 } from "lucide-react";
 
+// Hook que nos permite navegar entre páginas
+// sin recargar toda la aplicación.
+import { useNavigate } from "react-router-dom";
+
 // Definimos qué datos esperamos recibir desde el Home.
 // Por ahora usamos una estructura simple según lo que devuelve el backend documental.
 type PostCardProps = {
@@ -28,6 +32,11 @@ type PostCardProps = {
 };
 
 function PostCard({ post }: PostCardProps) {
+
+    // Hook de React Router.
+    // Lo utilizaremos para abrir la pantalla
+    // de detalle de una publicación.
+    const navigate = useNavigate();
 
     // Si el post tiene autor, mostramos el nickname.
     // Si no viene autor por algún motivo, mostramos "Usuario".
@@ -101,9 +110,20 @@ function PostCard({ post }: PostCardProps) {
 
                 {/* Descripción del post */}
                 <div className="mt-4">
+
                     <p className="leading-relaxed">
                         {post.description}
                     </p>
+
+                    {/* Botón que lleva al detalle completo del post.
+                        Navega a /post/:id utilizando el id del post actual. */}
+                    <button
+                        className="btn btn-link p-0 mt-2"
+                        onClick={() => navigate(`/post/${post._id}`)}
+                    >
+                        Ver publicación
+                    </button>
+
                 </div>
 
                 {/* Imagen del post */}
