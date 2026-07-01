@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getUsers } from "../services/users";
 import { useAuth } from "../context/AuthContext";
+import { Link } from "react-router-dom";
 
 function Login() {
     const navigate = useNavigate();
@@ -97,6 +98,16 @@ function Login() {
                             >
                                 Iniciar Sesión
                             </button>
+
+                            <p className="text-center text-sm mt-4">
+                                ¿No tenés una cuenta?{" "}
+                                <Link
+                                    to="/register"
+                                    className="link link-primary font-semibold hover:underline"
+                                >
+                                    Registrate acá
+                                </Link>
+                            </p>
 
                         </fieldset>
 

@@ -3,7 +3,7 @@ function ModoOscuro() {
     return (
         <label className="swap swap-rotate">
             {/* this hidden checkbox controls the state */}
-            <input type="checkbox" className="theme-controller" value="synthwave" />
+            <input type="checkbox" className="theme-controller" value="monochrome" />
 
             {/* sun icon */}
             <svg

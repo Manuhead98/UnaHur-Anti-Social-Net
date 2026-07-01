@@ -21,31 +21,18 @@ function AppRouter() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
 
-                {/* Layout principal */}
-                <Route element={<MenuLayout />}>
-
+                {/* Todo lo de acá requiere login */}
+                <Route
+                    element={
+                        <ProtectedRoute>
+                            <MenuLayout />
+                        </ProtectedRoute>
+                    }
+                >
                     <Route path="/home" element={<Home />} />
-
-                    <Route
-                        path="/perfil"
-                        element={
-                            <ProtectedRoute>
-                                <Perfil />
-                            </ProtectedRoute>
-                        }
-                    />
-
-                    <Route
-                        path="/crear-post"
-                        element={
-                            <ProtectedRoute>
-                                <CreatePost />
-                            </ProtectedRoute>
-                        }
-                    />
-
+                    <Route path="/perfil" element={<Perfil />} />
+                    <Route path="/crear-post" element={<CreatePost />} />
                     <Route path="/post/:id" element={<Post />} />
-
                 </Route>
 
                 {/* Error */}

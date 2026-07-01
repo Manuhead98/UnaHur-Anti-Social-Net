@@ -7,6 +7,7 @@ import { useAuth } from "../../context/AuthContext";
 
 // Contexto del buscador.
 import { useSearch } from "../../context/SearchContext";
+import ModoOscuro from "./ModoOscuro";
 
 function Navbar() {
 
@@ -17,7 +18,7 @@ function Navbar() {
     const { user, logout } = useAuth();
     // Obtenemos el texto del buscador y la función para modificarlo.
     const { search, setSearch } = useSearch();
-    
+
 
     // Cierra la sesión, limpia el localStorage
     // y vuelve a la pantalla de login.
@@ -56,17 +57,18 @@ function Navbar() {
 
             {/* ---------------- Lado derecho ---------------- */}
             <div className="flex gap-2 items-center">
+                <ModoOscuro />
 
-            {/* Buscador de publicaciones.
+                {/* Buscador de publicaciones.
                 Todo lo que escriba el usuario se guarda
                 en SearchContext para que Home pueda usarlo. */}
-            <input
-                type="text"
-                placeholder="Buscar publicaciones..."
-                className="input input-bordered hidden md:block md:w-64"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-            />
+                <input
+                    type="text"
+                    placeholder="Buscar publicaciones..."
+                    className="input input-bordered hidden md:block md:w-64"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                />
 
                 {/* Menú del usuario */}
                 <div className="dropdown dropdown-end">
