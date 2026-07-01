@@ -5,7 +5,7 @@ import Sidebar from "../ui/Sidebar";
 
 function MenuLayout() {
     return (
-        <div className="flex flex-col h-screen bg-base-200">
+        <div className="min-h-screen flex flex-col bg-base-200">
 
             <Navbar />
 
@@ -17,7 +17,7 @@ function MenuLayout() {
                     className="drawer-toggle"
                 />
 
-                <div className="drawer-content overflow-y-auto">
+                <div className="drawer-content">
 
                     <main className="container mx-auto max-w-7xl p-6">
 
