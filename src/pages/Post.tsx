@@ -1,3 +1,4 @@
+
 // Hooks de React para manejar estado y ejecutar lógica al cargar el componente.
 import { useEffect, useState } from "react";
 
@@ -18,6 +19,7 @@ import { useAuth } from "../context/AuthContext";
 import PostCard from "../components/feed/PostCard";
 
 import Avatar from "../components/feed/Avatar";
+
 
 function Post() {
     // Tomamos el id del post desde la URL.
@@ -134,6 +136,7 @@ function Post() {
     }
 
     return (
+
         <div className="container mx-auto max-w-3xl space-y-6">
 
             {/* Publicación principal */}
@@ -206,6 +209,7 @@ function Post() {
             </div>
 
         </div>
+
     );
 }
 

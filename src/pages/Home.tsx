@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import PostCard from "../components/feed/PostCard";
+
 import { getPosts } from "../services/posts";
 // Contexto del buscador.
 // Nos permite leer el texto escrito en el Navbar.
@@ -53,6 +54,7 @@ function Home() {
         <div className="container mx-auto px-4">
 
             <div className="max-w-2xl mx-auto space-y-6">
+
 
                 {/* Mensaje mientras carga */}
                 {loading && (

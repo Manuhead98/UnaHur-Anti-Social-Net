@@ -81,8 +81,10 @@ function Navbar() {
                             {/* Por ahora seguimos usando una imagen fija.
                                 Después podemos usar iniciales o foto real. */}
                             <img
-                                alt="Avatar"
-                                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+
+                                alt="Avatar del usuario"
+                                src="https://img.daisyui.com/images/profile/demo/spiderperson@192.webp"
+
                             />
 
                         </div>
