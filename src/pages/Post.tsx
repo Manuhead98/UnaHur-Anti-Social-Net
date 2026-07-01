@@ -18,7 +18,7 @@ import { useAuth } from "../context/AuthContext";
 // Reutilizamos la tarjeta del post que ya se usa en Home.
 import PostCard from "../components/feed/PostCard";
 
-import Avatar from "../components/feed/Avatar";
+import Avatar from "../components/ui/Avatar";
 
 
 function Post() {
