@@ -1,75 +1,201 @@
-# React + TypeScript + Vite
+# UnaHur Anti-Social Net - FrontEnd
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Integrantes
 
-Currently, two official plugins are available:
+- Carolina Victoria Gonzalez Pisarello
+- Juan Manuel Solis Diaz
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+# Descripción
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+UnaHur Anti-Social Net es una aplicación web desarrollada en **React + TypeScript** que simula una red social.
 
-## Expanding the ESLint configuration
+La aplicación consume la API desarrollada en la materia **Estrategia de Persistencia** y permite a los usuarios registrarse, iniciar sesión, crear publicaciones, agregar imágenes y etiquetas, comentar publicaciones y visualizar su perfil.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+# Tecnologías utilizadas
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## FrontEnd
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- React 19
+- TypeScript
+- Vite
+- React Router DOM
+- Axios
+- Tailwind CSS
+- DaisyUI
+- Lucide React
+
+## BackEnd
+
+- Node.js
+- Express
+- MongoDB
+- Mongoose
+- Docker
+- CORS
+
+---
+
+# Funcionalidades
+
+## Usuarios
+
+- Registro de usuarios
+- Inicio de sesión
+- Persistencia de sesión mediante LocalStorage
+- Cierre de sesión
+
+## Publicaciones
+
+- Visualizar publicaciones
+- Crear publicaciones
+- Agregar imágenes
+- Agregar etiquetas (Tags)
+- Editar publicaciones
+- Eliminar publicaciones
+- Compartir publicaciones
+- Ver publicación completa
+
+## Comentarios
+
+- Visualizar comentarios
+- Crear comentarios
+- Cantidad de comentarios por publicación
+
+## Perfil
+
+- Visualizar información del usuario
+- Visualizar publicaciones propias
+
+## Extras
+
+- Buscador de publicaciones
+- Avatares personalizados
+- Tiempo relativo de publicación
+- Interfaz responsive
+- Diseño utilizando DaisyUI
+- Menú contextual para publicaciones
+
+---
+
+# Instalación
+
+## Backend
+
+### 1. Clonar el repositorio
+
+
+git clone https://github.com/EP-UnaHur-2026C1/anti-social-documental-tp-somo-lo-que-somo
+
+
+Ingresar al proyecto:
+
+cd anti-social-documental-tp-somo-lo-que-somo
+
+
+### 2. Instalar dependencias
+npm install
+
+
+### 3. Levantar MongoDB con Docker
+
+Desde la carpeta del proyecto ejecutar:
+
+
+docker compose up -d
+
+
+Verificar que el contenedor de MongoDB se encuentre en ejecución.
+
+### 4. Ejecutar el BackEnd
+
+npm run dev
+
+
+El servidor quedará disponible en:
+
+
+http://localhost:3000
+
+
+---
+
+## FrontEnd
+
+### 1. Clonar el repositorio
+
+
+git clone https://github.com/Manuhead98/UnaHur-Anti-Social-Net
+
+
+cd UnaHur-Anti-Social-Net
+
+
+### 2. Instalar dependencias
+
+
+npm install
+
+### 3. Ejecutar la aplicación
+
+
+npm run dev
+
+
+La aplicación estará disponible en:
+
+http://localhost:5173
+
+
+---
+
+# Orden de ejecución
+
+Para utilizar correctamente la aplicación se recomienda seguir el siguiente orden:
+
+1. Levantar MongoDB utilizando Docker.
+2. Ejecutar el BackEnd (`npm run dev`).
+3. Ejecutar el FrontEnd (`npm run dev`).
+4. Abrir la aplicación en:
 
 ```
+http://localhost:5173
+```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+# API utilizada
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+El FrontEnd consume la API REST desarrollada para la materia **Estrategia de Persistencia**, ejecutándose localmente en:
 
 ```
+http://localhost:3000
+```
+
+Principales endpoints utilizados:
+
+### Usuarios
+
+- GET /users
+- POST /users
+
+### Publicaciones
+
+- GET /posts
+- GET /posts/:id
+- POST /posts
+- PUT /posts/:id
+- DELETE /posts/:id
+
+### Comentarios
+
+- GET /comments/post/:postId
+- POST /comments
+
+### Tags
+
+- GET /tags
+
