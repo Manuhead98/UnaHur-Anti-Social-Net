@@ -109,7 +109,7 @@ function CreatePost() {
     return (
         <div className="container mx-auto max-w-2xl">
 
-            <div className="card bg-base-100 shadow border border-base-300">
+            <div className="card bg-base-100 shadow-md border border-base-300 hover:shadow-xl transition-all duration-300">
 
                 <div className="card-body">
 
@@ -197,7 +197,7 @@ function CreatePost() {
                     <button
                         onClick={publicar}
                         disabled={loading}
-                        className="btn btn-primary mt-2"
+                        className="btn btn-neutral mt-2"
                     >
                         {loading ? "Publicando..." : "Publicar"}
                     </button>

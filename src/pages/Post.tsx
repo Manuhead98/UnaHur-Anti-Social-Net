@@ -17,6 +17,8 @@ import { useAuth } from "../context/AuthContext";
 // Reutilizamos la tarjeta del post que ya se usa en Home.
 import PostCard from "../components/feed/PostCard";
 
+import Avatar from "../components/feed/Avatar";
+
 function Post() {
     // Tomamos el id del post desde la URL.
     const { id } = useParams();
@@ -138,7 +140,7 @@ function Post() {
             <PostCard post={post} />
 
             {/* Card de comentarios */}
-            <div className="card bg-base-100 shadow border border-base-300">
+            <div className="card bg-base-100 shadow-md border border-base-300 hover:shadow-xl transition-all duration-300">
                 <div className="card-body">
 
                     <h2 className="text-2xl font-bold">
@@ -162,7 +164,7 @@ function Post() {
                         )}
 
                         <button
-                            className="btn btn-primary"
+                            className="btn btn-neutral"
                             onClick={handleCreateComment}
                         >
                             Comentar
@@ -182,15 +184,19 @@ function Post() {
                             {comments.map((comment) => (
                                 <div
                                     key={comment._id}
-                                    className="bg-base-200 rounded-xl p-4"
+                                    className="bg-base-200 rounded-xl p-4 flex gap-3"
                                 >
-                                    <p className="font-semibold">
-                                        {comment.author?.nickname || "Usuario"}
-                                    </p>
+                                    <Avatar nickname={comment.author?.nickname} />
 
-                                    <p className="mt-1">
-                                        {comment.text}
-                                    </p>
+                                    <div>
+                                        <p className="font-semibold">
+                                            {comment.author?.nickname || "Usuario"}
+                                        </p>
+
+                                        <p className="mt-1">
+                                            {comment.text}
+                                        </p>
+                                    </div>
                                 </div>
                             ))}
                         </div>

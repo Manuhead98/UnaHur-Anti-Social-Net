@@ -1,5 +1,23 @@
 import { api } from "./api";
 
+// Actualiza la descripción de un post existente.
+export const updatePost = async (
+    postId: string,
+    description: string
+) => {
+    const response = await api.put(`/posts/${postId}`, {
+        description
+    });
+
+    return response.data;
+};
+
+// Elimina un post por id.
+export const deletePost = async (postId: string) => {
+    const response = await api.delete(`/posts/${postId}`);
+    return response.data;
+};
+
 export const getPosts = async () => {
   const response = await api.get("/posts");
   return response.data;

@@ -49,7 +49,7 @@ function Perfil() {
 
         <div className="container mx-auto max-w-3xl space-y-6">
 
-            <div className="card bg-base-100 shadow">
+            <div className="card bg-base-100 shadow-md border border-base-300 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
 
                 <div className="card-body">
 

@@ -21,7 +21,7 @@ function Bienvenido() {
                     </p>
                     <Link
                         to="/login"
-                        className="btn btn-primary"
+                        className="btn btn-neutral"
                     >
                         Iniciar Sesión
                     </Link>                </div>

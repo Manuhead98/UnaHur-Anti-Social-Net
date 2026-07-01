@@ -63,7 +63,7 @@ function Register() {
                     </p>
                 </div>
 
-                <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl border border-base-300">
+                <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-xl hover:shadow-2xl transition-all duration-300">
                     <div className="card-body">
 
                         <h2 className="text-2xl font-bold mb-2">

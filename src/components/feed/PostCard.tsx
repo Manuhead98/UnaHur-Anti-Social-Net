@@ -1,4 +1,8 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import Avatar from "./Avatar";
+
 import {
     Heart,
     MessageCircle,
@@ -6,17 +10,16 @@ import {
     MoreVertical
 } from "lucide-react";
 
-// Hook que nos permite navegar entre páginas
-// sin recargar toda la aplicación.
-import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+import { deletePost, updatePost } from "../../services/posts";
 
-// Definimos qué datos esperamos recibir desde el Home.
-// Por ahora usamos una estructura simple según lo que devuelve el backend documental.
 type PostCardProps = {
     post: {
         _id: string;
         description: string;
+        createdAt?: string;
         author?: {
+            _id: string;
             nickname: string;
         };
         comments?: {
@@ -33,50 +36,159 @@ type PostCardProps = {
 
 function PostCard({ post }: PostCardProps) {
 
-    // Hook de React Router.
-    // Lo utilizaremos para abrir la pantalla
-    // de detalle de una publicación.
+    // Hook para navegar entre páginas.
     const navigate = useNavigate();
 
-    // Si el post tiene autor, mostramos el nickname.
-    // Si no viene autor por algún motivo, mostramos "Usuario".
+    // Usuario actualmente logueado.
+    const { user } = useAuth();
+
+    // Like local (solo visual).
+    const [liked, setLiked] = useState(false);
+
+    // Permite ocultar una publicación de otro usuario.
+    const [hidden, setHidden] = useState(false);
+
+    // Verificamos si la publicación pertenece al usuario logueado.
+    const isOwner = user?._id === post.author?._id;
+
     const authorName = post.author?.nickname || "Usuario";
-
-    // Si el post tiene comentarios, contamos cuántos hay.
-    // Si no vienen comentarios, mostramos 0.
     const commentsCount = post.comments?.length || 0;
-
-    // Si el post tiene imágenes, tomamos la primera.
-    // Si no tiene imágenes, dejamos una imagen de prueba.
     const imageUrl = post.images?.[0]?.url;
 
+    // Si el usuario ocultó la publicación, dejamos de renderizarla.
+    if (hidden) {
+        return null;
+    }
+
+    // Abre el detalle de la publicación.
+    const goToComments = () => {
+        navigate(`/post/${post._id}`);
+    };
+
+    // Copia el link al portapapeles.
+    const sharePost = async () => {
+
+        const postUrl = `${window.location.origin}/post/${post._id}`;
+
+        await navigator.clipboard.writeText(postUrl);
+
+        alert("Link copiado al portapapeles.");
+
+    };
+
+    // Edita la descripción.
+    const handleEdit = async () => {
+
+        const newDescription = prompt(
+            "Editar publicación:",
+            post.description
+        );
+
+        if (!newDescription?.trim()) {
+            return;
+        }
+
+        await updatePost(
+            post._id,
+            newDescription
+        );
+
+        window.location.reload();
+
+    };
+
+    // Elimina la publicación.
+    const handleDelete = async () => {
+
+        const confirmDelete = confirm(
+            "¿Seguro que querés eliminar esta publicación?"
+        );
+
+        if (!confirmDelete) {
+            return;
+        }
+
+        await deletePost(post._id);
+
+        window.location.reload();
+
+    };
+
+    // Recibe la fecha de creación del post y devuelve un texto amigable.
+// Ejemplos:
+// - Hace 2 minutos
+// - Hace 1 hora
+// - Hace 3 días
+const getRelativeTime = (date?: string) => {
+
+    // Si no viene fecha, mostramos un texto genérico.
+    if (!date) {
+        return "Hace unos minutos";
+    }
+
+    // Convertimos la fecha que viene del backend a objeto Date.
+    const postDate = new Date(date);
+
+    // Fecha y hora actual.
+    const now = new Date();
+
+    // Diferencia en milisegundos.
+    const diffInMs = now.getTime() - postDate.getTime();
+
+    // Convertimos a minutos.
+    const diffInMinutes = Math.floor(diffInMs / 1000 / 60);
+
+    if (diffInMinutes < 1) {
+        return "Recién publicado";
+    }
+
+    if (diffInMinutes < 60) {
+        return `Hace ${diffInMinutes} minuto${diffInMinutes === 1 ? "" : "s"}`;
+    }
+
+    // Convertimos a horas.
+    const diffInHours = Math.floor(diffInMinutes / 60);
+
+    if (diffInHours < 24) {
+        return `Hace ${diffInHours} hora${diffInHours === 1 ? "" : "s"}`;
+    }
+
+    // Convertimos a días.
+    const diffInDays = Math.floor(diffInHours / 24);
+
+    return `Hace ${diffInDays} día${diffInDays === 1 ? "" : "s"}`;
+};
+
     return (
-        <div className="card bg-base-100 shadow-md border border-base-300 w-full">
+
+        <div className="card bg-base-100 shadow-md border border-base-300 w-full hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
 
             <div className="card-body p-5">
 
-                {/* Header del post: avatar + nombre + menú */}
+                {/* ================= Header ================= */}
+
                 <div className="flex justify-between items-start">
 
                     <div className="flex gap-3">
 
-                        <Avatar />
+                        {/* Mostramos el avatar del autor de la publicación */}
+                        <Avatar nickname={authorName} />
 
                         <div>
-                            {/* Nombre del autor del post */}
-                            <h2 className="font-semibold text-base-content">
+
+                            <h2 className="font-semibold">
                                 {authorName}
                             </h2>
 
-                            {/* Por ahora queda fijo. Después podemos calcular fecha real */}
                             <p className="text-sm text-base-content/60">
-                                Hace unos minutos
+                                {getRelativeTime(post.createdAt)}
                             </p>
+
                         </div>
 
                     </div>
 
-                    {/* Menú de opciones */}
+                    {/* Menú contextual */}
                     <div className="dropdown dropdown-end">
 
                         <div
@@ -89,121 +201,172 @@ function PostCard({ post }: PostCardProps) {
 
                         <ul
                             tabIndex={0}
-                            className="dropdown-content menu bg-base-100 rounded-box z-10 w-40 shadow"
+                            className="dropdown-content menu bg-base-100 rounded-box z-10 w-48 shadow"
                         >
-                            <li>
-                                <a>Editar</a>
-                            </li>
+
+                            {isOwner ? (
+
+                                <>
+                                    <li>
+                                        <button onClick={handleEdit}>
+                                            ✏️ Editar
+                                        </button>
+                                    </li>
+
+                                    <li>
+                                        <button onClick={handleDelete}>
+                                            🗑️ Eliminar
+                                        </button>
+                                    </li>
+                                </>
+
+                            ) : (
+
+                                <>
+                                    <li>
+                                        <button onClick={() => setHidden(true)}>
+                                            🙈 Ocultar publicación
+                                        </button>
+                                    </li>
+
+                                    <li>
+                                        <button onClick={() => alert("Publicación reportada.")}>
+                                            🚩 Reportar
+                                        </button>
+                                    </li>
+                                </>
+
+                            )}
 
                             <li>
-                                <a>Eliminar</a>
+                                <button onClick={sharePost}>
+                                    🔗 Compartir
+                                </button>
                             </li>
 
-                            <li>
-                                <a>Compartir</a>
-                            </li>
                         </ul>
 
                     </div>
 
                 </div>
 
-                {/* Descripción del post */}
+                {/* ================= Descripción ================= */}
+
                 <div className="mt-4">
 
                     <p className="leading-relaxed">
                         {post.description}
                     </p>
 
-                    {/* Botón que lleva al detalle completo del post.
-                        Navega a /post/:id utilizando el id del post actual. */}
-                    <button
-                        className="btn btn-link p-0 mt-2"
-                        onClick={() => navigate(`/post/${post._id}`)}
-                    >
-                        Ver publicación
-                    </button>
-
                 </div>
 
-                {/* Imagen del post */}
-                {
-                    imageUrl && (
+                {/* ================= Imagen ================= */}
 
-                        <figure className="mt-4 rounded-xl overflow-hidden max-h-96">
+                {imageUrl && (
 
-                            <img
-                                src={imageUrl}
-                                alt="Post"
-                                className="w-full object-cover"
-                            />
+                    <figure className="mt-4 rounded-xl overflow-hidden max-h-96">
 
-                        </figure>
+                        <img
+                            src={imageUrl}
+                            alt="Post"
+                            className="w-full object-cover"
+                        />
 
-                    )
-                }
+                    </figure>
 
-                {/* Tags del post */}
+                )}
+
+                {/* ================= Tags ================= */}
+
                 <div className="flex flex-wrap gap-2 mt-5">
 
-                    {/* Si el post tiene tags, los mostramos */}
                     {post.tags && post.tags.length > 0 ? (
+
                         post.tags.map((tag) => (
+
                             <div
                                 key={tag.name}
-                                className="badge badge-primary"
+                                className="badge badge-outline"
                             >
                                 #{tag.name}
                             </div>
+
                         ))
+
                     ) : (
-                        // Si no tiene tags, mostramos un mensaje simple
+
                         <div className="badge badge-ghost">
                             Sin etiquetas
                         </div>
+
                     )}
 
                 </div>
 
                 <div className="divider my-3"></div>
 
-                {/* Acciones del post */}
+                {/* ================= Acciones ================= */}
+
                 <div className="flex justify-around">
 
-                    <button className="btn btn-ghost flex-1">
+                    {/* Like */}
+                    <button
+                        className="btn btn-ghost flex-1"
+                        onClick={() => setLiked(!liked)}
+                    >
                         <Heart
                             size={20}
                             className="mr-2"
+                            fill={liked ? "currentColor" : "none"}
                         />
 
-                        {/* Likes hardcodeados por ahora */}
-                        <span>25</span>
+                        <span>{liked ? 1 : 0}</span>
+
                     </button>
 
-                    <button className="btn btn-ghost flex-1">
+                    {/* Comentarios */}
+                    <button
+                        className="btn btn-ghost flex-1"
+                        onClick={goToComments}
+                    >
                         <MessageCircle
                             size={20}
                             className="mr-2"
                         />
 
-                        {/* Cantidad real de comentarios */}
                         <span>{commentsCount}</span>
+
                     </button>
 
-                    <button className="btn btn-ghost flex-1">
+                    {/* Compartir */}
+                    <button
+                        className="btn btn-ghost flex-1"
+                        onClick={sharePost}
+                    >
                         <Share2
                             size={20}
                             className="mr-2"
                         />
 
                         Compartir
+
                     </button>
 
                 </div>
 
+                {/* ================= Botón detalle ================= */}
+
+                <button
+                    className="btn btn-neutral w-full mt-4 mt-4"
+                    onClick={() => navigate(`/post/${post._id}`)}
+                >
+                    Ver publicación completa
+                </button>
+
             </div>
 
         </div>
+
     );
 }
 
