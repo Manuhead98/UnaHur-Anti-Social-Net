@@ -1,13 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-import { useAuth } from "../context/AuthContext";
-import { createPost } from "../services/posts";
+import { useAuth } from "../../context/AuthContext";
+import { createPost } from "../../services/posts";
 // Servicio que obtiene todas las etiquetas disponibles.
-import { getTags } from "../services/tags";
-
+import { getTags } from "../../services/tags";
 // Hook para ejecutar lógica cuando se carga el componente.
 import { useEffect } from "react";
+import Avatar from "../ui/Avatar";
 
 function CreatePost() {
 
@@ -27,7 +26,7 @@ function CreatePost() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
-        // Cuando la pantalla se abre, consultamos todas las etiquetas
+    // Cuando la pantalla se abre, consultamos todas las etiquetas
     // disponibles para mostrarlas en el formulario.
     useEffect(() => {
 
@@ -117,13 +116,34 @@ function CreatePost() {
                         Crear publicación
                     </h2>
 
-                    <p className="text-base-content/70">
+                    <p className="text-base-content/70 mb-2">
                         Compartí algo con la comunidad de UnaHur.
                     </p>
 
+                    {/* Información del usuario */}
+                    <div className="flex items-center gap-4 mb-4">
+
+                        <Avatar
+                            id={user?._id ?? ""}
+                            nickname={user?.nickname}
+                            size="w-16"
+                        />
+
+                        <div>
+                            <h3 className="font-semibold text-lg">
+                                {user?.nickname}
+                            </h3>
+
+                            <p className="text-sm text-base-content/60">
+                                ¿Qué estás pensando?
+                            </p>
+                        </div>
+
+                    </div>
+
                     <textarea
                         className="textarea textarea-bordered w-full min-h-32"
-                        placeholder="¿Qué estás pensando?"
+                        placeholder="Escribí tu publicación..."
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                     />
@@ -131,11 +151,11 @@ function CreatePost() {
                     <input
                         type="text"
                         className="input input-bordered w-full"
-                        placeholder="URL de imagen opcional"
+                        placeholder="URL de imagen (opcional)"
                         value={imageUrl}
                         onChange={(e) => setImageUrl(e.target.value)}
                     />
-                    
+
                     {/* Sección de etiquetas.
                         Mostramos las etiquetas que vienen del backend para que el usuario
                         pueda seleccionar una o varias antes de publicar. */}
