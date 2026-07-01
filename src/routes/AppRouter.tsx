@@ -9,7 +9,7 @@ import Perfil from "../pages/Perfil";
 import Post from "../pages/Post";
 import Error from "../pages/Error";
 import MenuLayout from "../components/layouts/MenuLayout";
-import CreatePost from "../pages/CreatePost";
+import CreatePost from "../components/feed/CreatePost";
 
 function AppRouter() {
     return (
