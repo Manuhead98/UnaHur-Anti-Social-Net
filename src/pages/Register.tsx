@@ -50,7 +50,13 @@ function Register() {
     };
 
     return (
-        <div className="hero bg-base-200 min-h-screen">
+        <div className="hero bg-base-200 min-h-screen"
+            style={{
+                backgroundImage: "url('/loginRegister.jpg')",
+                backgroundSize: "cover",
+                backgroundAttachment: "fixed",
+            }}
+        >
             <div className="hero-content flex-col lg:flex-row-reverse gap-12">
 
                 <div className="text-center lg:text-left max-w-lg">

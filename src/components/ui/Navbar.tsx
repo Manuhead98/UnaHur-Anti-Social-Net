@@ -8,6 +8,7 @@ import { useAuth } from "../../context/AuthContext";
 // Contexto del buscador.
 import { useSearch } from "../../context/SearchContext";
 import ModoOscuro from "./ModoOscuro";
+import Avatar from "../ui/Avatar";
 
 function Navbar() {
 
@@ -82,11 +83,10 @@ function Navbar() {
 
                             {/* Por ahora seguimos usando una imagen fija.
                                 Después podemos usar iniciales o foto real. */}
-                            <img
-
-                                alt="Avatar del usuario"
-                                src="https://img.daisyui.com/images/profile/demo/spiderperson@192.webp"
-
+                            <Avatar
+                                id={user?._id ?? ""}
+                                nickname={user?.nickname}
+                                size="w-10"
                             />
 
                         </div>

@@ -174,7 +174,7 @@ function PostCard({ post }: PostCardProps) {
                     <div className="flex gap-3">
 
                         {/* Mostramos el avatar del autor de la publicación */}
-                        <Avatar id={authorId} nickname={authorName} />
+                        <Avatar id={authorId} nickname={authorName} size="w-16" />
 
                         <div>
 

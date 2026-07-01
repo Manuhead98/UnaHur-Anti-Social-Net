@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 import { useAuth } from "../context/AuthContext";
 import { getPostsByUser } from "../services/posts";
 import PostCard from "../components/feed/PostCard";
+import Avatar from "../components/ui/Avatar";
 
 function Perfil() {
 
@@ -53,24 +53,42 @@ function Perfil() {
 
                 <div className="card-body">
 
-                    <h2 className="text-3xl font-bold">
+                    <h2 className="text-3xl font-bold mb-4">
                         Mi Perfil
                     </h2>
 
-                    <p>
-                        <strong>Nickname:</strong> {user?.nickname}
-                    </p>
+                    <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
 
-                    <p>
-                        <strong>Email:</strong> {user?.email}
-                    </p>
+                        {/* Avatar */}
+                        <Avatar
+                            id={user?._id ?? ""}
+                            nickname={user?.nickname}
+                            size="w-24"
+                        />
 
-                    <button
-                        onClick={cerrarSesion}
-                        className="btn btn-error w-fit mt-4"
-                    >
-                        Cerrar sesión
-                    </button>
+                        {/* Información */}
+                        <div className="flex-1 space-y-2">
+
+                            <p className="text-lg">
+                                <span className="font-semibold">Nickname:</span>{" "}
+                                {user?.nickname}
+                            </p>
+
+                            <p className="text-lg">
+                                <span className="font-semibold">Email:</span>{" "}
+                                {user?.email}
+                            </p>
+
+                            <button
+                                onClick={cerrarSesion}
+                                className="btn btn-error mt-4"
+                            >
+                                Cerrar sesión
+                            </button>
+
+                        </div>
+
+                    </div>
 
                 </div>
 

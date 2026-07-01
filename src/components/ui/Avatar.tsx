@@ -1,9 +1,11 @@
 type AvatarProps = {
     id: string;
     nickname?: string;
+    size?: string;
+
 };
 
-function Avatar({ id, nickname }: AvatarProps) {
+function Avatar({ id, nickname, size }: AvatarProps) {
     const totalAvatares = 12;
 
     // Convierte los últimos dos caracteres hexadecimales del ObjectId en un número
@@ -16,7 +18,7 @@ function Avatar({ id, nickname }: AvatarProps) {
 
     return (
         <div className="avatar">
-            <div className="w-16 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+            <div className={`${size} rounded-full ring ring-primary ring-offset-base-100 ring-offset-2`}>
                 <img src={avatar} alt={nickname} />
             </div>
         </div>
