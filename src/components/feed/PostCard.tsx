@@ -55,6 +55,7 @@ function PostCard({ post }: PostCardProps) {
     const authorName = post.author?.nickname || "Usuario";
     const commentsCount = post.comments?.length || 0;
     const imageUrl = post.images?.[0]?.url;
+    const authorId = post.author?._id || "";
 
     // Si el usuario ocultó la publicación, dejamos de renderizarla.
     if (hidden) {
@@ -116,49 +117,49 @@ function PostCard({ post }: PostCardProps) {
     };
 
     // Recibe la fecha de creación del post y devuelve un texto amigable.
-// Ejemplos:
-// - Hace 2 minutos
-// - Hace 1 hora
-// - Hace 3 días
-const getRelativeTime = (date?: string) => {
+    // Ejemplos:
+    // - Hace 2 minutos
+    // - Hace 1 hora
+    // - Hace 3 días
+    const getRelativeTime = (date?: string) => {
 
-    // Si no viene fecha, mostramos un texto genérico.
-    if (!date) {
-        return "Hace unos minutos";
-    }
+        // Si no viene fecha, mostramos un texto genérico.
+        if (!date) {
+            return "Hace unos minutos";
+        }
 
-    // Convertimos la fecha que viene del backend a objeto Date.
-    const postDate = new Date(date);
+        // Convertimos la fecha que viene del backend a objeto Date.
+        const postDate = new Date(date);
 
-    // Fecha y hora actual.
-    const now = new Date();
+        // Fecha y hora actual.
+        const now = new Date();
 
-    // Diferencia en milisegundos.
-    const diffInMs = now.getTime() - postDate.getTime();
+        // Diferencia en milisegundos.
+        const diffInMs = now.getTime() - postDate.getTime();
 
-    // Convertimos a minutos.
-    const diffInMinutes = Math.floor(diffInMs / 1000 / 60);
+        // Convertimos a minutos.
+        const diffInMinutes = Math.floor(diffInMs / 1000 / 60);
 
-    if (diffInMinutes < 1) {
-        return "Recién publicado";
-    }
+        if (diffInMinutes < 1) {
+            return "Recién publicado";
+        }
 
-    if (diffInMinutes < 60) {
-        return `Hace ${diffInMinutes} minuto${diffInMinutes === 1 ? "" : "s"}`;
-    }
+        if (diffInMinutes < 60) {
+            return `Hace ${diffInMinutes} minuto${diffInMinutes === 1 ? "" : "s"}`;
+        }
 
-    // Convertimos a horas.
-    const diffInHours = Math.floor(diffInMinutes / 60);
+        // Convertimos a horas.
+        const diffInHours = Math.floor(diffInMinutes / 60);
 
-    if (diffInHours < 24) {
-        return `Hace ${diffInHours} hora${diffInHours === 1 ? "" : "s"}`;
-    }
+        if (diffInHours < 24) {
+            return `Hace ${diffInHours} hora${diffInHours === 1 ? "" : "s"}`;
+        }
 
-    // Convertimos a días.
-    const diffInDays = Math.floor(diffInHours / 24);
+        // Convertimos a días.
+        const diffInDays = Math.floor(diffInHours / 24);
 
-    return `Hace ${diffInDays} día${diffInDays === 1 ? "" : "s"}`;
-};
+        return `Hace ${diffInDays} día${diffInDays === 1 ? "" : "s"}`;
+    };
 
     return (
 
@@ -173,7 +174,7 @@ const getRelativeTime = (date?: string) => {
                     <div className="flex gap-3">
 
                         {/* Mostramos el avatar del autor de la publicación */}
-                        <Avatar nickname={authorName} />
+                        <Avatar id={authorId} nickname={authorName} />
 
                         <div>
 
